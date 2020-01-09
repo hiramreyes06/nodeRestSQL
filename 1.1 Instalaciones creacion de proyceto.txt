@@ -1,0 +1,25 @@
+Para crear un proyecto de node con typescript , primero en la carpeta del 
+proyecto ejecutamos, para iniciar el proyecto de node
+
+npm init
+
+Despues para agregarle typescript
+
+tsc --init
+
+Del cual nos genera el ts.config.ts , al cual le podemos cambiar el es5 por es6
+y le agregamos la direccion donde generara el proyecto compilado a js
+
+"outDir":"dist"
+
+Para compilar el proyecto manualmente
+
+tsc
+
+Para que observe y compile los cambios automaticamente
+
+tsc -w
+
+Y para ejecutar el proyecto compilado
+
+nodemon dist

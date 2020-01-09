@@ -1,0 +1,21 @@
+Para poder compilar tambien archivos y carpetas estaticos al dist, instalamos
+
+npm install copyfiles
+
+Nos sirve para especificar en los scripts de npm que carpetas queremos
+transferir al dist compilado automatica mente, para automatizarlo, nos vamos
+al package.json y en los scripts. creamos las palabras claves como html,
+que utiliza la libreria , 
+copy files necesita --up y el nivel de carpeta que va ignorar , despues va el
+path de la carpeta que quremos añadir y por ultimo la carpeta donde se 
+transferira.
+Despues creamos otra palabra clave build para que al llamarla desde npm run
+ejecute el comando tsc y despues la clave html
+
+"main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "html": "copyfiles --up 1 src/public/* dist",
+    "build": "tsc && npm run html"
+  },
+

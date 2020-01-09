@@ -1,0 +1,20 @@
+Para eso necesitamos una carpeta dentro de src, llamada router, en la cual
+crearemos un archivo router.ts, en la cual agregaremos y importaremos express
+
+import {Router, Request, Response} from 'express'
+
+const router = Router();
+
+router.get('/heroes/:id', (req:Request, res: Response) =>{
+
+    const id= req.params.id;
+
+    res.json({
+        ok:true,
+        lol:'Todo bien dog',
+        id
+    });
+
+});
+
+export default router;

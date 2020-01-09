@@ -1,0 +1,59 @@
+Primero instalamos el paquete npm de express , en la terminal
+
+npm install express
+
+Ahora en una carpeta server/, creamos el archivo para la clase server.ts
+Despues le importamos express 
+
+import express = require('express');
+
+Para que typescript reconosca express en el tipado tenemos que instalar el
+type
+
+npm install @types/express
+
+Ahora en el archivo server.ts
+
+import express = require('express');
+
+import path= require('path');
+
+export default class Server{
+
+    public app: express.Application;
+    public port: number;
+
+    constructor( puerto: number){
+        this.port= puerto;    
+        this.app= express();
+    }
+
+    //Para inicializar express en una sola instancia en la aplicacion
+    //Patron de diseño SingleTon
+    //Al llamar este metodo inicia el servidor
+    static init (puerto:number){
+
+        return new Server(puerto);
+    }
+
+    start(callback: Function){
+
+        this.app.listen( this.port, callback() );
+        this.publicFolder();
+    }
+
+    //De esta forma compartimos para TODO mundo la carpeta estatica public
+    private publicFolder(){
+
+        const publicPath= path.resolve(__dirname, '../public');
+
+        this.app.use( express.static(publicPath) );
+    }
+
+
+}
+
+
+
+
+

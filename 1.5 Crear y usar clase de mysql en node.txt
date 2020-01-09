@@ -1,0 +1,93 @@
+Primero nos debemos de asegurar que la configuracion
+
+Primero instalamos el paquete npm de mysql authentication method , tenga 
+seleccionada la que tenga la version 5.0, por cuestiones de compatibilidad
+
+npm install mysql
+
+Si te sale algun bug instalamos
+
+npm install mysqljs/mysql
+
+Ahora instalamos el type para typescritp
+
+npm install @types/mysql --save-dev
+
+Ahora en el archivo mysql.ts creamos la clase en forma de singleton para tener
+solo una instancia durante toda la aplicacion, esto verifica si ya se creo una
+o no..
+
+import mysql= require('mysql');
+
+//Clase con una sola instancia 
+//singleton
+
+export default class MySQL{
+
+    private static _instance: MySQL;
+
+    coneccion: mysql.Connection;
+
+    conectado:boolean=false;
+
+    constructor(){
+
+        console.log('Clase inicializada de mysql');
+
+        this.coneccion= mysql.createConnection({
+            host: 'localhost',
+            user: 'user_node',
+            password: 'Mitolonga06',
+            database: 'base_node',
+            port : 3306
+        });
+
+        this.conectarBD();
+
+    }
+
+    //De esta forma si la la propiedad ya fue instanciada la retorna
+    //y si no la crea
+    public static get instance(){
+        return this._instance || ( this._instance = new this() );
+    }
+
+    public static ejecutarQuery( query:string, callback:Function){
+
+        this.instance.coneccion.query( query, (err, results:Object[], fields )=>{
+
+            if(err){
+                console.log('Error en query',err);
+                return callback( err );
+            }
+            
+            if( results.length === 0){
+                callback('El registro solicitado no existe')
+            }
+            else{
+                callback(null, results);
+            }
+
+        } );
+
+    }
+
+
+    private conectarBD(){
+
+        this.coneccion.connect( (err: mysql.MysqlError)=>{
+            if(err){
+                console.log(err.message);
+                return;
+            }
+
+            this.conectado= true;
+            console.log('Base de datos sql online');
+
+        });
+    }
+
+
+}
+
+
